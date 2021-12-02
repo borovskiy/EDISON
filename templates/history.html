@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Ответы экстрасенсов и ваш ответ{% endblock %}
+
+{% block body %}
+    <p>Хотите загадать еще одно число?
+    <form action="" method="post">
+        <button type="submit">Да хочу</button>
+    </form>
+    {% for name, values in answers.items() %}
+        <p>{{ name }}<br>
+        История всех ответов {{ values.history_guesswork }}<br>
+        Достоверность к экстрасенсу {{ values.credibility_psychic }}
+    {% endfor %}
+
+{% endblock %}

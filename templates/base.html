@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Index{% endblock %}</title>
+    <style>
+        a {
+            text-decoration: none; /* Отменяем подчеркивание у ссылки */
+        }
+    </style>
+</head>
+<body>
+<p>
+    <a href="{{ url_for('answer') }}">
+    <button type="submit">Варианты ответов с вводом пользователя</button></a>
+
+    <a href="{{ url_for('history') }}">
+        <button type="submit">История угадываний</button></a>
+
+    <a href="{{ url_for('clear_session') }}">
+        <button type="submit">clear session</button></a></p>
+{% block body %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Ответы экстрасенсов и ваш ответ{% endblock %}
+
+{% block body %}
+
+    Пожалуйста введите ваше загаданное число
+    <form action="" method="post">
+        <input name="number" type="number" max="99" min="10">
+        <button type="submit">Число</button>
+    </form>
+    {% for name, values in answers.items() %}
+        <p>{{ name }}<br>
+        Текущий вариант отвера {{ values.current_answer }}<br>
+        История всех ответов {{ values.history_guesswork }}<br>
+        Достоверность к экстрасенсу {{ values.credibility_psychic }}
+    {% endfor %}
+
+{% endblock %}
