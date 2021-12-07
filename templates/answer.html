@@ -8,12 +8,13 @@
     <form action="" method="post">
         <input name="number" type="number" max="99" min="10">
         <button type="submit">Число</button>
-    </form>
-    {% for name, values in answers.items() %}
-        <p>{{ name }}<br>
-        Текущий вариант отвера {{ values.current_answer }}<br>
-        История всех ответов {{ values.history_guesswork }}<br>
-        Достоверность к экстрасенсу {{ values.credibility_psychic }}
-    {% endfor %}
+    </form><br>
+    История ваших чисел - {{ session.psychics.numbers_user }}<br>
+    <p>{% for values in session.psychics.psychic_list %}
+        {{ values.name }}<br>
+        Текущий вариант отвера {{ values.answer }}<br>
+        История всех ответов {{ values.history_answer }}<br>
+        Достоверность к экстрасенсу {{ values.trust_psychic }}<br>
+    {% endfor %}</p>
 
 {% endblock %}
