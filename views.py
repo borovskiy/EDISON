@@ -1,7 +1,6 @@
 from flask import request, session, url_for, redirect, render_template, Flask
 from flask.views import View
-
-from helper_classes import PsychicAnaUserLists
+from models import PsychicAndUserLists
 
 app = Flask(__name__)
 app.secret_key = 'asuhaobsfavfb58568k'
@@ -13,8 +12,10 @@ class StartGame(View):
 
     def dispatch_request(self):
         if request.method == 'POST':
-            if session.get('psychics') is None:
-                session['psychics'] = PsychicAnaUserLists().create_list_psychics()
+            if (session.get('psychic_list') and session.get('numbers_user')) is None:
+                object_psychic_any_user_lists = PsychicAndUserLists()
+                object_psychic_any_user_lists.create_lists_psychics_and_numbers_user()
+                session.update(object_psychic_any_user_lists.get_attrs_in_dict())
             return redirect(url_for('answer'))
         return render_template('index.html')
 
@@ -25,15 +26,15 @@ class AnswerOptions(View):
 
     def dispatch_request(self):
         if request.method == 'POST':
-            session['psychics'] = PsychicAnaUserLists(psychic_list=session['psychics']['psychic_list'],
-                                                      numbers_user=session['psychics']['numbers_user']). \
-                update_data(number=request.form['number'])
+            psychic_any_user_lists = PsychicAndUserLists(session['psychic_list'], session['numbers_user'])
+            psychic_any_user_lists.serializer_objects_psychic_list_in_class()
+            psychic_any_user_lists.processing_entered_number(request.form['number'])
+            psychic_any_user_lists.serializer_objects_psychic_list_in_dict()
+            session.update(psychic_any_user_lists.get_attrs_in_dict())
             return redirect(url_for('history'))
-        if session.get('psychics') is None:
+        if session.get('psychic_list') is None:
             return redirect(url_for('index'))
-
-        answers = session.get('psychics')
-        return render_template('answer.html', answers=answers)
+        return render_template('answer.html')
 
 
 class AnswerHistory(View):
@@ -43,7 +44,7 @@ class AnswerHistory(View):
     def dispatch_request(self):
         if request.method == 'POST':
             return redirect(url_for('answer'))
-        if session.get('psychics') is None:
+        if session.get('psychic_list') is None:
             return redirect(url_for('index'))
         return render_template('history.html')
 

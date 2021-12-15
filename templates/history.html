@@ -8,8 +8,8 @@
     <form action="" method="post">
         <button type="submit">Да хочу</button>
     </form><br>
-    История ваших чисел - {{ session.psychics.numbers_user }}<br>
-    <p>{% for values in session.psychics.psychic_list %}
+    История ваших чисел - {{ session.numbers_user }}<br>
+    <p>{% for values in session.psychic_list %}
         {{ name }}<br>
         История всех ответов {{ values.history_answer }}<br>
         Достоверность к экстрасенсу {{ values.trust_psychic }}<br>

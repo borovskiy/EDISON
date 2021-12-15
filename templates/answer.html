@@ -3,14 +3,13 @@
 {% block title %}Ответы экстрасенсов и ваш ответ{% endblock %}
 
 {% block body %}
-
     Пожалуйста введите ваше загаданное число
     <form action="" method="post">
         <input name="number" type="number" max="99" min="10">
         <button type="submit">Число</button>
     </form><br>
-    История ваших чисел - {{ session.psychics.numbers_user }}<br>
-    <p>{% for values in session.psychics.psychic_list %}
+    История ваших чисел - {{ session.numbers_user }}<br>
+    <p>{% for values in session.psychic_list %}
         {{ values.name }}<br>
         Текущий вариант отвера {{ values.answer }}<br>
         История всех ответов {{ values.history_answer }}<br>
