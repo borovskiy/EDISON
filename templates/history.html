@@ -10,7 +10,7 @@
     </form><br>
     История ваших чисел - {{ session.numbers_user }}<br>
     <p>{% for values in session.psychic_list %}
-        {{ name }}<br>
+        {{ values.name }}<br>
         История всех ответов {{ values.history_answer }}<br>
         Достоверность к экстрасенсу {{ values.trust_psychic }}<br>
     {% endfor %}</p>
