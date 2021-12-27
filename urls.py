@@ -1,7 +1,7 @@
 from views import app
-from views import StartGame, AnswerHistory, AnswerOptions, ClearSession
+import views
 
-app.add_url_rule('/', view_func=StartGame.as_view('index'))
-app.add_url_rule('/answer', view_func=AnswerOptions.as_view('answer'))
-app.add_url_rule('/history', view_func=AnswerHistory.as_view('history'))
-app.add_url_rule('/clear_session', view_func=ClearSession.as_view('clear_session'))
+app.add_url_rule('/', view_func=views.StartGame.as_view('index'))
+app.add_url_rule('/answer', view_func=views.AnswerOptions.as_view('answer'))
+app.add_url_rule('/history', view_func=views.AnswerHistory.as_view('history'))
+app.add_url_rule('/clear_session', view_func=views.ClearSession.as_view('clear_session'))

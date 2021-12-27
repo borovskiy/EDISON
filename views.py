@@ -1,6 +1,9 @@
+import json
 from flask import request, session, url_for, redirect, render_template, Flask
 from flask.views import View
-from models import PsychicAndUserLists
+
+import serializer
+import models
 
 app = Flask(__name__)
 app.secret_key = 'asuhaobsfavfb58568k'
@@ -13,9 +16,9 @@ class StartGame(View):
     def dispatch_request(self):
         if request.method == 'POST':
             if (session.get('psychic_list') and session.get('numbers_user')) is None:
-                object_psychic_any_user_lists = PsychicAndUserLists()
-                object_psychic_any_user_lists.create_lists_psychics_and_numbers_user()
-                session.update(object_psychic_any_user_lists.get_attrs_in_dict())
+                work_object = models.PsychicAndUserLists()
+                work_object.object_filling()
+                session.update(json.loads(work_object.to_json()))
             return redirect(url_for('answer'))
         return render_template('index.html')
 
@@ -26,11 +29,9 @@ class AnswerOptions(View):
 
     def dispatch_request(self):
         if request.method == 'POST':
-            psychic_any_user_lists = PsychicAndUserLists(session['psychic_list'], session['numbers_user'])
-            psychic_any_user_lists.serializer_objects_psychic_list_in_class()
-            psychic_any_user_lists.processing_entered_number(request.form['number'])
-            psychic_any_user_lists.serializer_objects_psychic_list_in_dict()
-            session.update(psychic_any_user_lists.get_attrs_in_dict())
+            work_object = json.loads(json.dumps(dict(session)), object_hook=serializer.custom_decoder)
+            work_object.processing_entered_number(request.form['number'])
+            session.update(json.loads(work_object.to_json()))
             return redirect(url_for('history'))
         if session.get('psychic_list') is None:
             return redirect(url_for('index'))
